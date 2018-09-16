@@ -6,8 +6,8 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-# bot_id = os.getenv('GROUPME_BOT_ID')
-bot_id = 'af71124cae5174ba8998c0a95b'
+bot_id = os.getenv('GROUPME_BOT_ID')
+# bot_id = 'af71124cae5174ba8998c0a95b'
 
 @app.route('/', methods=['POST'])
 def webhook():
