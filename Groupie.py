@@ -221,6 +221,14 @@ quotes = {
     ]
     }
 
+Quotes = {
+    "quotes"[
+    {"quote":"Don't descriminate against my entree!", "author":"Sam Olsen (904)"},
+    {"quote":"Noah, come tuck me in.","author": "Jesse Stoner (908)"},
+    {"quote":"BIG DICK ENERGY!","author":"Bryce Poole (911)"},
+    {"quote":"Is that a Shandon?","author":"Grace Troutman (912)"}
+    ]
+}
 
 @app.route('/', methods=['POST'])
 def webhook():
@@ -230,6 +238,11 @@ def webhook():
   if (re.match('^\/quote$',data['text']) != None):
       Bot().postText(API().getQuote(API().loadJson(quotes)))
       return
+
+  if (re.match('^\/Quote$',data['text']) != None):
+      Bot().postText(API().getQuote(API().loadJson(Quotes)))
+      return
+
   # We don't want to reply to ourselves!
   if data['name'] != 'Boonie':
     msg = '@{}, you sent "{}".'.format(data['name'], data['text'])
