@@ -222,7 +222,7 @@ quotes = {
     }
 
 Quotes = {
-    "quotes"[
+    "quotes" : [
     {"quote":"Don't descriminate against my entree!", "author":"Sam Olsen (904)"},
     {"quote":"Noah, come tuck me in.","author": "Jesse Stoner (908)"},
     {"quote":"BIG DICK ENERGY!","author":"Bryce Poole (911)"},
