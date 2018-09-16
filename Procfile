@@ -1,1 +1,1 @@
-web: gunicorn Groupie.py:Groupie.py
+web: gunicorn Groupie.py:app
