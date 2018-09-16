@@ -225,7 +225,7 @@ quotes = {
 @app.route('/', methods=['POST'])
 def webhook():
   data = request.get_json()
-    print(data)
+  print(data)
 
   if (re.match('^\/quote$',data['text']) != None):
       Bot().postText(API().getQuote(API().loadJson(quotes)))
