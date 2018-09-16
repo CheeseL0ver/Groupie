@@ -6,7 +6,8 @@ from flask import Flask
 
 app = Flask(__name__)
 
-bot_id = os.getenv('GROUPME_BOT_ID')
+# bot_id = os.getenv('GROUPME_BOT_ID')
+bot_id = 'af71124cae5174ba8998c0a95b'
 
 @app.route('/', methods=['POST'])
 def webhook():
@@ -44,7 +45,7 @@ class Bot(object):
         r = requests.post('https://api.groupme.com/v3/bots/post', data = postJson)
 
 
-# api = API()
-# bot = Bot()
-# api.loadJson('quotes.json')
-# bot.postQuote(api.getQuote(api.loadJson('quotes.json')))
+api = API()
+bot = Bot()
+api.loadJson('quotes.json')
+bot.postQuote(api.getQuote(api.loadJson('quotes.json')))
