@@ -19,7 +19,7 @@ def webhook():
   # We don't want to reply to ourselves!
   if data['name'] != 'Boonie':
     msg = '@{}, you sent "{}".'.format(data['name'], data['text'])
-    Bot().postQuote(msg)
+    Bot().postText(msg)
 
   return "ok", 200
 
