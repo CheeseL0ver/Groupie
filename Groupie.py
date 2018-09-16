@@ -15,7 +15,7 @@ def webhook():
   # We don't want to reply to ourselves!
   if data['name'] != 'apnorton-test-bot':
     msg = '{}, you sent "{}".'.format(data['name'], data['text'])
-    Bot().postQuote(msg)
+    Bot().postQuote("SHANDON!!!")
 
   return "ok", 200
 
