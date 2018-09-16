@@ -9,11 +9,11 @@ app = Flask(__name__)
 
 bot_id = os.getenv('GROUPME_BOT_ID')
 
-quotes = """{
+quotes = {
 	"quotes": [
 
     {
-    		   "quote":"We're like puzzle pieces, we may fit in but that doesn't mean that is where we belong.","author":"Weston Edwards"},
+    	   "quote":"We're like puzzle pieces, we may fit in but that doesn't mean that is where we belong.","author":"Weston Edwards"},
     {
            "quote":"Life isn’t about getting and having, it’s about giving and being.","author":"Kevin Kruse"},
     {
@@ -140,7 +140,7 @@ quotes = """{
            "quote":"If you want to lift yourself up, lift up someone else.","author":"Booker T. Washington"},
     {
            "quote":"I have been impressed with the urgency of doing. Knowing is not enough; we must apply. Being willing is not enough; we must do.","author":"Leonardo da Vinci"},
-    {string
+    {
            "quote":"Limitations live only in our minds.  But if we use our imaginations, our possibilities become limitless.","author":"Jamie Paolinetti"},
     {
            "quote":"You take your life in your own hands, and what happens? A terrible thing, no one to blame.","author":"Erica Jong"},
@@ -219,7 +219,7 @@ quotes = """{
     {
            "quote":"If you can dream it, you can achieve it.","author":"Zig Ziglar"}
     ]
-    }"""
+    }
 
 
 @app.route('/', methods=['POST'])
@@ -227,7 +227,7 @@ def webhook():
   data = request.get_json()
 
   if (re.match('^\/quote$',data['text']) != None):
-      Bot().postText(API().getQuote(API.loadJson(quotes)))
+      Bot().postText(API().getQuote(API().loadJson(quotes)))
   print(data)
   # We don't want to reply to ourselves!
   if data['name'] != 'Boonie':
@@ -238,7 +238,7 @@ def webhook():
 
 class API(object):
     def loadJson(self, str):
-        data = json.loads(str)
+        data = json.loads(json.dumps(str))
         return data
 
     def getQuote(self,jsonStr):
@@ -253,11 +253,11 @@ class Bot(object):
           "bot_id"  : bot_id,
           "text"    : text
         }
-        # print(postJson)
+        print(postJson)
         r = requests.post('https://api.groupme.com/v3/bots/post', data = postJson)
 
-
+# print(quotes)
 # api = API()
 # bot = Bot()
-# api.loadJson('quotes.json')
-# bot.postQuote(api.getQuote(api.loadJson('quotes.json')))
+# api.loadJson(quotes)
+# bot.postText(api.getQuote(api.loadJson(quotes)))
