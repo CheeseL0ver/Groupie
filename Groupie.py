@@ -2,7 +2,7 @@ import json
 import requests
 import random
 import os
-from flask import Flask
+from flask import Flask, request
 
 app = Flask(__name__)
 
@@ -11,12 +11,12 @@ bot_id = 'af71124cae5174ba8998c0a95b'
 
 @app.route('/', methods=['POST'])
 def webhook():
-  # data = request.get_json()
+  data = request.get_json()
   #
-  # # We don't want to reply to ourselves!
-  # if data['name'] != 'apnorton-test-bot':
-  #   msg = '{}, you sent "{}".'.format(data['name'], data['text'])
-  Bot().postQuote("SHANDON!!!")
+  # We don't want to reply to ourselves!
+  if data['name'] != 'apnorton-test-bot':
+    msg = '{}, you sent "{}".'.format(data['name'], data['text'])
+    Bot().postQuote(msg)
 
   return "ok", 200
 
