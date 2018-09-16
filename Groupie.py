@@ -12,9 +12,9 @@ bot_id = 'af71124cae5174ba8998c0a95b'
 @app.route('/', methods=['POST'])
 def webhook():
   data = request.get_json()
-  #
+  print(data)
   # We don't want to reply to ourselves!
-  if data['name'] != 'apnorton-test-bot':
+  if data['name'] != 'Boonie':
     msg = '{}, you sent "{}".'.format(data['name'], data['text'])
     Bot().postQuote(msg)
 
