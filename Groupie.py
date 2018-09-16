@@ -45,7 +45,7 @@ class Bot(object):
         r = requests.post('https://api.groupme.com/v3/bots/post', data = postJson)
 
 
-api = API()
-bot = Bot()
-api.loadJson('quotes.json')
-bot.postQuote(api.getQuote(api.loadJson('quotes.json')))
+# api = API()
+# bot = Bot()
+# api.loadJson('quotes.json')
+# bot.postQuote(api.getQuote(api.loadJson('quotes.json')))
