@@ -15,10 +15,10 @@ def webhook():
   # We don't want to reply to ourselves!
   if data['name'] != 'apnorton-test-bot':
     msg = '{}, you sent "{}".'.format(data['name'], data['text'])
-    send_message(msg)
+    Bot().postQuote(msg)
 
   return "ok", 200
-  
+
 class API(object):
     def loadJson(self, file):
         data = json.loads(open(file).read())
