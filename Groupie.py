@@ -225,10 +225,11 @@ quotes = {
 @app.route('/', methods=['POST'])
 def webhook():
   data = request.get_json()
+    print(data)
 
   if (re.match('^\/quote$',data['text']) != None):
       Bot().postText(API().getQuote(API().loadJson(quotes)))
-  print(data)
+      return
   # We don't want to reply to ourselves!
   if data['name'] != 'Boonie':
     msg = '@{}, you sent "{}".'.format(data['name'], data['text'])
