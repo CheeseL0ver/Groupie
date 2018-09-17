@@ -322,7 +322,7 @@ class API(object):
         self.humidity = data['main']['humidity']
         self.cloudCov = data['clouds']['all']
 
-        report = 'Condition: {}\nDescription: {}\nTemp:\n\tCurrent: {}\n\tHigh: {}\n\tLow: {}\nHumidity: {}\nCloud Coverage: {}'.format(self.weather,self.weatherDes,self.temp,self.tempHigh,self.tempLow,self.humidity,self.cloudCov)
+        report = 'Condition: {}\nDescription: {}\nTemps:\n\t\t\tCurrent: {}℉\n\t\t\tHigh: {}℉\n\t\t\tLow: {}℉\nHumidity: {}%\nCloud Coverage: {}%'.format(self.weather,self.weatherDes,self.temp,self.tempHigh,self.tempLow,self.humidity,self.cloudCov)
 
         return report
 
