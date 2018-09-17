@@ -313,8 +313,8 @@ class API(object):
                 self.weather += '\n\t\t| ' + w['main'] + ' |'
                 self.weatherDes += '\n\t\t| ' + w['description'] + ' |'
         else:
-            self.weather = ' | ' + str(data['weather']['main']) + ' |'
-            self.weatherDes = ' | ' + str(data['weather']['main']) + ' |'
+            self.weather = ' | ' + data['weather'][0]['main'] + ' |'
+            self.weatherDes = ' | ' + data['weather'][0]['main'] + ' |'
 
         self.temp = data['main']['temp']
         self.tempHigh = data['main']['temp_max']
