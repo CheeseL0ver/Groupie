@@ -310,8 +310,8 @@ class API(object):
         # Add items to the weatherName and weatherDes arrays
         if (len(data['weather']) > 1):
             for w in data['weather']:
-                self.weather += '| ' + w['main'] + ' |'
-                self.weatherDes += '| ' + w['description'] + ' |'
+                self.weather += '| ' + w['main'] + ' |\n'
+                self.weatherDes += '| ' + w['description'] + ' |\n'
         else:
             self.weather = '| ' + data['weather']['main'] + ' |'
             self.weatherDes = '| ' + data['weather']['main'] + ' |'
