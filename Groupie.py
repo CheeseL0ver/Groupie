@@ -1,12 +1,11 @@
-import json
-import requests
-import random
-import os
-import re
+import json, requests, random, os, re
 from flask import Flask, request
 
 app = Flask(__name__)
 
+token = 'XO42RJiOW4AoyWXVqhkmmS81I3uyacRRVzVxGV64'
+WEATHER_API_KEY = '870144bf9929b688c8d323bacb4705ef'
+GROUPID = '43644617'
 bot_id = os.getenv('GROUPME_BOT_ID')
 
 quotes = {
@@ -226,15 +225,20 @@ Quotes = {
     {"quote":"Don't descriminate against my entree!", "author":"Sam Olsen (904)"},
     {"quote":"Noah, come tuck me in.","author": "Jesse Stoner (908)"},
     {"quote":"BIG DICK ENERGY!","author":"Bryce Poole (911)"},
-    {"quote":"Is that a Shandon?","author":"Grace Troutman (912)"}
+    {"quote":"Is that a Shandon?","author":"Grace Troutman (912)"},
+    {"quote":"She's a study lamp. Don't mess with her or she'll sue.","author":"Bryce Poole (911)"},
+    {"quote":"I didn't know Aretha Franklin was dead until she died.","author":"Patrick McRee (906)"}
     ]
-}
+    }
 
 @app.route('/', methods=['POST'])
 def webhook():
   data = request.get_json()
   print(data)
 
+  if (re.match('^\/all [a-zA-Z09]+'),data['text'] != None):
+      Bot().postTextAll(data['text'])
+      return
   if (re.match('^\/quote$',data['text']) != None):
       Bot().postText(API().getQuote(API().loadJson(quotes)))
       return
@@ -261,6 +265,20 @@ class API(object):
         quoteAuthor = choice['author']
         return "%s -%s" % (quote,quoteAuthor)
 
+    def getMembers(self,groupID):
+        members = []
+        r = requests.get('https://api.groupme.com/v3/groups/' + str(groupID) + "?token=" + token)
+        data = json.loads(json.dumps(r.json()))
+        data = data['response']['members']
+        for person in data:
+            members.append(person['name'])
+        members.sort()
+
+        return members
+        # print(r.url)
+        # print(r.json())
+
+
 class Bot(object):
     def postText(self, text):
         postJson = {
@@ -270,8 +288,17 @@ class Bot(object):
         print(postJson)
         r = requests.post('https://api.groupme.com/v3/bots/post', data = postJson)
 
-# print(quotes)
-# api = API()
-# bot = Bot()
-# api.loadJson(quotes)
-# bot.postText(api.getQuote(api.loadJson(quotes)))
+    def postTextAll(self, text):
+        members = API().getMembers(GROUPID)
+        msg = ''
+        for person in members:
+            msg += '@' + person + ' '
+        msg += text
+        postJson = {
+          "bot_id"  : bot_id,
+          "text"    : msg
+        }
+        print(postJson)
+        r = requests.post('https://api.groupme.com/v3/bots/post', data = postJson)
+
+# print(API().getMembers(43644617))
