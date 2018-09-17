@@ -239,7 +239,7 @@ def webhook():
   print(data)
 
   # /quote command
-  if (re.match('^^\/weather +',data['text']) != None):
+  if (re.match('^\/weather$|^\/weather +',data['text']) != None):
       Bot().postText(API().getWeather())
       return
 
@@ -249,12 +249,12 @@ def webhook():
       return
 
   # /quote command
-  if (re.match('^\/quote +',data['text']) != None):
+  if (re.match('^\/quote$|^\/quote +',data['text']) != None):
       Bot().postText(API().getQuote(API().loadJson(quotes)))
       return
 
   # /Quote command
-  if (re.match('^\/Quote +',data['text']) != None):
+  if (re.match('^\/Quote$|^\/Quote +',data['text']) != None):
       Bot().postText(API().getQuote(API().loadJson(Quotes)))
       return
 
