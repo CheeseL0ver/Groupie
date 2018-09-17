@@ -236,7 +236,7 @@ def webhook():
   data = request.get_json()
   print(data)
 
-  if (re.match('^\/all [a-zA-Z09]+'),data['text'] != None):
+  if (re.match('^\/all [a-zA-Z09]+'),data['text']) != None):
       Bot().postTextAll(data['text'])
       return
   if (re.match('^\/quote$',data['text']) != None):
