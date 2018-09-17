@@ -5,6 +5,7 @@ app = Flask(__name__)
 
 token = 'XO42RJiOW4AoyWXVqhkmmS81I3uyacRRVzVxGV64'
 WEATHER_API_KEY = '870144bf9929b688c8d323bacb4705ef'
+WEATHER_ZIP_CODE = '28607'
 GROUPID = '43644617'
 bot_id = os.getenv('GROUPME_BOT_ID')
 
@@ -227,7 +228,8 @@ Quotes = {
     {"quote":"BIG DICK ENERGY!","author":"Bryce Poole (911)"},
     {"quote":"Is that a Shandon?","author":"Grace Troutman (912)"},
     {"quote":"She's a study lamp. Don't mess with her or she'll sue.","author":"Bryce Poole (911)"},
-    {"quote":"I didn't know Aretha Franklin was dead until she died.","author":"Patrick McRee (906)"}
+    {"quote":"I didn't know Aretha Franklin was dead until she died.","author":"Patrick McRee (906)"},
+    {"quote":"What do you know about community?","author":"Nick Roess (902)"}
     ]
     }
 
@@ -236,26 +238,38 @@ def webhook():
   data = request.get_json()
   print(data)
 
+  # /quote command
+  if (re.match('^\/weather$',data['text']) != None):
+      Bot().postText(API().getWeather())
+      return
+
+  # /all command
   if (re.match('^\/all [a-zA-Z09]+',data['text']) != None):
       Bot().postTextAll(re.sub('^\/all ', '',data['text']))
       return
 
+  # /quote command
   if (re.match('^\/quote$',data['text']) != None):
       Bot().postText(API().getQuote(API().loadJson(quotes)))
       return
 
+  # /Quote command
   if (re.match('^\/Quote$',data['text']) != None):
       Bot().postText(API().getQuote(API().loadJson(Quotes)))
       return
 
   # We don't want to reply to ourselves!
-  if data['name'] != 'Boonie':
-    msg = '@{}, you sent "{}".'.format(data['name'], data['text'])
-    Bot().postText(msg)
+  # if data['name'] != 'Boonie':
+  #   msg = '@{}, you sent "{}".'.format(data['name'], data['text'])
+  #   Bot().postText(msg)
 
   return "ok", 200
 
 class API(object):
+    def fetchJson(self,url):
+        r = requests.get(url)
+        return r
+
     def loadJson(self, str):
         data = json.loads(json.dumps(str))
         return data
@@ -279,6 +293,39 @@ class API(object):
         # print(r.url)
         # print(r.json())
 
+    def getWeather(self):
+        self.temp = ''
+        self.tempHigh = ''
+        self.tempLow = ''
+        self.weather = ''
+        self.weatherDes = ''
+        self.humidity = ''
+        self.cloudCov = ''
+
+        url = 'http://api.openweathermap.org/data/2.5/weather'
+            +'?zip={}&units=imperial&APPID={}'.format(
+            WEATHER_ZIP_CODE,WEATHER_API_KEY)
+
+        data = self.loadJson(self.fetchJson(url))
+
+        # Add items to the weatherName and weatherDes arrays
+        if (len(data['weather']) > 1):
+            for w in data['weather']:
+                self.weatherStr += '|' + w['main'] + '|'
+                self.weatherDesStr += '|' + w['description'] + '|'
+        else:
+            self.weather = '|' + data['weather']['main'] + '|'
+            self.weatherDes = '|' + data['weather']['main'] + '|'
+
+        self.temp = data['main']['temp']
+        self.tempHigh = data['main']['temp_max']
+        self.tempLow = data['main']['temp_min']
+        self.humidity = data['main']['humidity']
+        self.cloudCov = data['clouds']['all']
+
+        report = 'Condition: {}\nDescription: {}\nTemp:\n\tCurrent: {}\n\tHigh: {}\n\tLow: {}\nHumidity: {}\nCloud Coverage: {}'.format(self.weather,self.weatherDes,self.temp,self.tempHigh,self.tempLow,self.humidity,self.cloudCov)
+
+        return report
 
 class Bot(object):
     def postText(self, text):
