@@ -303,8 +303,8 @@ class API(object):
         self.cloudCov = ''
 
         url = 'http://api.openweathermap.org/data/2.5/weather'
-            +'?zip={}&units=imperial&APPID={}'.format(
-            WEATHER_ZIP_CODE,WEATHER_API_KEY)
+        +'?zip={}&units=imperial&APPID={}'.format(
+        WEATHER_ZIP_CODE,WEATHER_API_KEY)
 
         data = self.loadJson(self.fetchJson(url))
 
