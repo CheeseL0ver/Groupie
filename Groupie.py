@@ -268,7 +268,7 @@ def webhook():
 class API(object):
     def fetchJson(self,url):
         r = requests.get(url)
-        return r
+        return r.json()
 
     def loadJson(self, str):
         data = json.loads(json.dumps(str))
