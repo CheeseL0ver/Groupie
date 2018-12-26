@@ -3,15 +3,11 @@ from flask import Flask, request
 
 app = Flask(__name__)
 
-# GROUPME_TOKEN = 'XO42RJiOW4AoyWXVqhkmmS81I3uyacRRVzVxGV64'
-# WEATHER_API_KEY = '870144bf9929b688c8d323bacb4705ef'
-# WEATHER_ZIP_CODE = '28607'
-# GROUPID = '43644617'
 GROUPME_TOKEN = os.getenv('GROUPME_TOKEN')
 WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
 WEATHER_ZIP_CODE = os.getenv('WEATHER_ZIP_CODE')
 GROUPID = os.getenv('GROUPME_GROUP_ID')
-bot_id = os.getenv('GROUPME_BOT_ID')
+GROUPME_BOT_ID = os.getenv('GROUPME_BOT_ID')
 
 quotes = {
 	"quotes": [
@@ -294,8 +290,6 @@ class API(object):
         members.sort()
 
         return members
-        # print(r.url)
-        # print(r.json())
 
     def getWeather(self):
         self.temp = ''
@@ -333,7 +327,7 @@ class API(object):
 class Bot(object):
     def postText(self, text):
         postJson = {
-          "bot_id"  : bot_id,
+          "bot_id"  : GROUPME_BOT_ID,
           "text"    : text
         }
         print(postJson)
@@ -346,10 +340,8 @@ class Bot(object):
             msg += '@' + person + ' '
         msg += text
         postJson = {
-          "bot_id"  : bot_id,
+          "bot_id"  : GROUPME_BOT_ID,
           "text"    : msg
         }
         print(postJson)
         r = requests.post('https://api.groupme.com/v3/bots/post', data = postJson)
-
-# print(API().getMembers(43644617))
