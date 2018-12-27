@@ -4,10 +4,10 @@ from flask import Flask, request
 app = Flask(__name__)
 
 GROUPME_TOKEN = os.getenv('GROUPME_TOKEN')
-WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
-WEATHER_ZIP_CODE = os.getenv('WEATHER_ZIP_CODE')
 GROUPID = os.getenv('GROUPME_GROUP_ID')
 GROUPME_BOT_ID = os.getenv('GROUPME_BOT_ID')
+WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
+WEATHER_ZIP_CODE = os.getenv('WEATHER_ZIP_CODE')
 
 quotes = {
 	"quotes": [
