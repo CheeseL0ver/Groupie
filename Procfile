@@ -1,1 +1,1 @@
-web: gunicorn Groupie:Groupie --log-file=-
+web: gunicorn Groupie:app --log-file=-
