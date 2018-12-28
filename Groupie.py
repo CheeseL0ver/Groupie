@@ -238,13 +238,23 @@ def webhook():
   data = request.get_json()
   print(data)
   time.sleep(1)
+
+  if (re.match('^\/help$|^\/help +',data['text']) != None):
+      Bot().postText(('I\m Boonie! A chat bot designed to do stuff and things! Try on of my multiple commands:\n'
+                        '/weather will get the current forcast in your area.\n'
+                        '/all allows for all chat members to be tagged in the message that preceeds the command.'
+                        '/quote will get a random quote by someone of influence...or something.'
+                        '/Quote will get a random quote by one of my residents. Who knows what might popup.'
+                        'wiki will provide the chat with a link to a random wikipedia article.'))
+      return
+
   # /quote command
   if (re.match('^\/weather$|^\/weather +',data['text']) != None):
       Bot().postText(API().getWeather())
       return
 
   # /all command
-  if (re.match('^\/all [a-zA-Z09]+',data['text']) != None):
+  if (re.match('^\/all [a-zA-Z0-9]+',data['text']) != None):
       Bot().postTextAll(re.sub('^\/all ', '',data['text']))
       return
 
@@ -259,7 +269,7 @@ def webhook():
       return
 
   # /wiki command
-  if (re.match('^\/wiki$|^\/Quote +',data['text']) != None):
+  if (re.match('^\/wiki$|^\/wiki +',data['text']) != None):
       Bot().postText(Wikipedia_API().getRandomArticle())
       return
 
