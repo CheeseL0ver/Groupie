@@ -1,4 +1,4 @@
-import json, requests, random, os, re
+import json, requests, random, os, re, time
 from flask import Flask, request
 
 app = Flask(__name__)
@@ -237,7 +237,7 @@ Quotes = {
 def webhook():
   data = request.get_json()
   print(data)
-
+  time.sleep(5)
   # /quote command
   if (re.match('^\/weather$|^\/weather +',data['text']) != None):
       Bot().postText(API().getWeather())
@@ -375,7 +375,7 @@ class Wikipedia_API(object):
             title = jsonStr['query']['pages'][0]['title']
             link = self.baseArticleURL + title.replace(' ', '_')
 
-            # return 'Title: %s\nArticle Link: %s'.format(title, link)
             return ('Title: {}\nArticle Link: {}'.format(title, link))
+
         except (KeyError):
              self.getRandomArticle()
