@@ -237,7 +237,7 @@ Quotes = {
 def webhook():
   data = request.get_json()
   print(data)
-  time.sleep(5)
+  time.sleep(1)
   # /quote command
   if (re.match('^\/weather$|^\/weather +',data['text']) != None):
       Bot().postText(API().getWeather())
