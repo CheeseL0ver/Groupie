@@ -258,6 +258,11 @@ def webhook():
       Bot().postText(API().getQuote(API().loadJson(Quotes)))
       return
 
+  # /wiki command
+  if (re.match('^\/wiki$|^\/Quote +',data['text']) != None):
+      Bot().postText(Wikipedia_API().getRandomArticle())
+      return
+
   # We don't want to reply to ourselves!
   # if data['name'] != 'Boonie':
   #   msg = '@{}, you sent "{}".'.format(data['name'], data['text'])
@@ -345,3 +350,32 @@ class Bot(object):
         }
         print(postJson)
         r = requests.post('https://api.groupme.com/v3/bots/post', data = postJson)
+
+class Wikipedia_API(object):
+    def __init__(self):
+        self.baseURL = 'https://en.wikipedia.org/w/api.php'
+        self.baseArticleURL = 'https://en.wikipedia.org/wiki/'
+    # ?action=query&prop=revisions&rvprop=content&format=json&formatversion=2&pageids=10000000
+    def getRandomArticle(self):
+        articleNum = str(random.randint(0,10000000))
+        payload = {'action': 'query',
+                    'prop': 'revisions',
+                    'rvprop' : 'content',
+                    'format' : 'json',
+                    'formatversion' : '2',
+                    'pageids' : articleNum
+                    }
+
+        r = requests.get(self.baseURL, params=payload)
+
+        jsonStr = r.json()
+        print (r.url)
+
+        try:
+            title = jsonStr['query']['pages'][0]['title']
+            link = self.baseArticleURL + title.replace(' ', '_')
+
+            # return 'Title: %s\nArticle Link: %s'.format(title, link)
+            return ('Title: {}\nArticle Link: {}'.format(title, link))
+        except (KeyError):
+             self.getRandomArticle()
