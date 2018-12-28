@@ -274,6 +274,12 @@ def webhook():
       Bot().postText(Wikipedia_API().getRandomArticle())
       return
 
+  # /search command
+  if (re.match('^\/search [a-zA-Z0-9]+',data['text']) != None):
+      searchResults = Wikipedia_API().search(re.sub('^\/search ', '',data['text']))
+      Bot().postText(searchResults)
+      return
+
   # We don't want to reply to ourselves!
   # if data['name'] != 'Boonie':
   #   msg = '@{}, you sent "{}".'.format(data['name'], data['text'])
@@ -393,3 +399,28 @@ class Wikipedia_API(object):
 
         except (KeyError):
              self.getRandomArticle()
+
+    def search(self, query):
+        if (query == ''):
+            return 'No search query was provided.'
+
+        payload = {'action': 'query',
+                    'list': 'search',
+                    'srsearch' : query,
+                    'format' : 'json',
+                    }
+
+        r = requests.get(self.baseURL, params=payload)
+
+        jsonStr = r.json()
+        searchResults = 'I found the following results for {} on Wikipedia:\n'.format(query)
+        results = jsonStr['query']['search']
+        if (len(results) == 0):
+            return 'No search results found for {}'.format(query)
+
+
+        for result in results:
+            title = result['title']
+            link = self.baseArticleURL + title.replace(' ', '_')
+            searchResults += 'Title: {}\n Link: {}\n\n'.format(title,link)
+        return searchResults
