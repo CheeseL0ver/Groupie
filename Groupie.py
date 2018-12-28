@@ -373,6 +373,9 @@ class Wikipedia_API(object):
 
         try:
             title = jsonStr['query']['pages'][0]['title']
+
+            if (title.contains('User_talk:')): #Prevents User Talk articles from being used
+                return self.getRandomArticle()
             link = self.baseArticleURL + title.replace(' ', '_')
 
             return ('Title: {}\nArticle Link: {}'.format(title, link))
