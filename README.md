@@ -28,6 +28,8 @@ If you are experiencing issues taking a look at the [Flask Quickstart Docs](http
     * Causes the following message to ping all members in the group
   * [x] /weather
     * Displays details about the weather in the specified area code
+  * [x] /wiki
+    * Displays a random [Wikipedia](https://en.wikipedia.org/ "Wikipedia Homepage") article title and a link to that article
   * [ ] More ideas?
 * [x] DEPLOY!
   * [x] Create Procfile file
@@ -41,3 +43,4 @@ If you are experiencing issues taking a look at the [Flask Quickstart Docs](http
 * [ ] Set timeouts to prevent command spamming
 * [ ] Create white-list functionality for specific commands
 * [ ] Move all JSON data to web host instead of being hard coded
+* [ ] Add game functionality i.e. Group Trivia 
