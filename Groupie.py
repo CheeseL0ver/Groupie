@@ -241,11 +241,11 @@ def webhook():
 
   if (re.match('^\/help$|^\/help +',data['text']) != None):
       Bot().postText(('I\'m Boonie! A chat bot designed to do stuff and things! Try one of my multiple commands:\n'
-                        '/weather will get the current forcast in your area.\n'
-                        '/all allows for all chat members to be tagged in the message that preceeds the command.\n'
-                        '/quote will get a random quote by someone of influence...or something.\n'
-                        '/Quote will get a random quote by one of my residents. Who knows what might popup.\n'
-                        'wiki will provide the chat with a link to a random wikipedia article.\n'))
+                        '/weather will get the current forcast in your area.\n\n'
+                        '/all allows for all chat members to be tagged in the message that preceeds the command.\n\n'
+                        '/quote will get a random quote by someone of influence...or something.\n\n'
+                        '/Quote will get a random quote by one of my residents. Who knows what might popup.\n\n'
+                        'wiki will provide the chat with a link to a random wikipedia article.\n\n'))
       return
 
   # /quote command
