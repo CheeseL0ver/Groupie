@@ -8,6 +8,9 @@ GROUPID = os.getenv('GROUPME_GROUP_ID')
 GROUPME_BOT_ID = os.getenv('GROUPME_BOT_ID')
 WEATHER_API_KEY = os.getenv('WEATHER_API_KEY')
 WEATHER_ZIP_CODE = os.getenv('WEATHER_ZIP_CODE')
+DB_USER = os.getenv('DB_USER')
+DB_PASSWORD = os.getenv('DB_PASSWORD')
+DB_NAME = os.getenv('DB_NAME')
 
 quotes = {
 	"quotes": [
@@ -261,13 +264,19 @@ def webhook():
 
   # /quote command
   if (re.match('^\/quote$|^\/quote +',data['text']) != None):
-      Bot().postText(API().getQuote(API().loadJson(quotes)))
+      # Bot().postText(API().getQuote(API().loadJson(quotes)))
+      Bot().postText(Mongo().getInspirationalQuote())
+      return
+
+  # /rezzie command
+  if (re.match('^\/rezzie$|^\/rezzie +',data['text']) != None):
+      Bot().postText(Mongo().getResidentQuote())
       return
 
   # /Quote command
-  if (re.match('^\/Quote$|^\/Quote +',data['text']) != None):
-      Bot().postText(API().getQuote(API().loadJson(Quotes)))
-      return
+  # if (re.match('^\/Quote$|^\/Quote +',data['text']) != None):
+  #     Bot().postText(API().getQuote(API().loadJson(Quotes)))
+  #     return
 
   # /wiki command
   if (re.match('^\/wiki$|^\/wiki +',data['text']) != None):
@@ -292,15 +301,15 @@ class API(object):
         r = requests.get(url)
         return r.json()
 
-    def loadJson(self, str):
-        data = json.loads(json.dumps(str))
-        return data
+    # def loadJson(self, str):
+    #     data = json.loads(json.dumps(str))
+    #     return data
 
-    def getQuote(self,jsonStr):
-        choice = random.choice(jsonStr['quotes'])
-        quote = choice['quote']
-        quoteAuthor = choice['author']
-        return "%s -%s" % (quote,quoteAuthor)
+    # def getQuote(self,jsonStr):
+    #     choice = random.choice(jsonStr['quotes'])
+    #     quote = choice['quote']
+    #     quoteAuthor = choice['author']
+    #     return "%s -%s" % (quote,quoteAuthor)
 
     def getMembers(self,groupID):
         members = []
@@ -424,3 +433,27 @@ class Wikipedia_API(object):
             link = self.baseArticleURL + title.replace(' ', '_')
             searchResults += 'Title: {}\n Link: {}\n\n'.format(title,link)
         return searchResults
+
+class Mongo:
+    def __init__(self):
+        self.client = MongoClient('mongodb://{}:{}@ds155653.mlab.com:55653/groupie_bot_quotes'.format(DB_USER, DB_PASSWORD),
+                             connectTimeoutMS=30000,
+                             socketTimeoutMS=None,
+                             socketKeepAlive=True)
+        self.db = client[DB_NAME]
+        self.inspirationalCollection = self.db.inspirational
+        self.residentCollection = self.db.residents
+
+    def getResidentQuote(self):
+        quotes = self.residentCollection.find()
+        index = random.randint(0, quotes.count() - 1)
+        quote = quotes[index]['quote']
+        quoteAuthor = quotes[index]['author']
+        return "%s -%s" % (quote,quoteAuthor)
+
+    def getInspirationalQuote(self):
+        quotes = self.inspirationalCollection.find()
+        index = random.randint(0, quotes.count() - 1)
+        quote = quotes[index]['quote']
+        quoteAuthor = quotes[index]['author']
+        return "%s -%s" % (quote,quoteAuthor)
