@@ -441,7 +441,7 @@ class Mongo:
                              connectTimeoutMS=30000,
                              socketTimeoutMS=None,
                              socketKeepAlive=True)
-        self.db = client[DB_NAME]
+        self.db = self.client[DB_NAME]
         self.inspirationalCollection = self.db.inspirational
         self.residentCollection = self.db.residents
 
