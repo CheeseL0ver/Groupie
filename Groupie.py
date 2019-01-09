@@ -74,9 +74,9 @@ class API(object):
         r = requests.get(url)
         return r.json()
 
-    # def loadJson(self, str):
-    #     data = json.loads(json.dumps(str))
-    #     return data
+    def loadJson(self, str):
+        data = json.loads(json.dumps(str))
+        return data
 
     # def getQuote(self,jsonStr):
     #     choice = random.choice(jsonStr['quotes'])
