@@ -27,7 +27,8 @@ def webhook():
                         '/all allows for all chat members to be tagged in the message that preceeds the command.\n\n'
                         '/quote will get a random quote by someone of influence...or something.\n\n'
                         '/rezzie will get a random quote by one of my residents. Who knows what might popup.\n\n'
-                        '/wiki will provide the chat with a link to a random wikipedia article.\n\n'))
+                        '/wiki will provide the chat with a link to a random wikipedia article.\n\n'
+                        '/search <SEARCH> will provide the chat with Wikipedia search results for the desired search.\n\n'))
       return
 
   # /quote command
